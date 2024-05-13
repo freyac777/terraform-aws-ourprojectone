@@ -24,24 +24,24 @@ resource "aws_db_instance" "writer" {
   skip_final_snapshot  = true
 }
 
-# resource "aws_db_instance" "reader1" {
-#   allocated_storage    = 10
-#   db_name              = "writer_db"
-#   engine               = "mysql"
-#   engine_version       = "8.0"
-#   instance_class       = "db.t3.micro"
+resource "aws_db_instance" "reader1" {
+  allocated_storage    = 10
+  db_name              = "writer_db"
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t3.micro"
   
-#   username             = "admin"
-#   password             = "admin123"
-#   parameter_group_name = "default.mysql8.0"
-#   publicly_accessible   = false
-#   vpc_security_group_ids = aws_security_group.projectsec.id
-#   # db_subnet_group_name = OUR!!!#change
-#   skip_final_snapshot  = true
+  username             = "admin"
+  password             = "password"
+  parameter_group_name = "default.mysql8.0"
+  publicly_accessible   = false
+  vpc_security_group_ids = [aws_security_group.projectsec.id]
+  # db_subnet_group_name = OUR!!!#change
+  skip_final_snapshot  = true
 
-#  #aws_db_instance_identifier = aws_db_instance.writer.id
+ #aws_db_instance_identifier = aws_db_instance.writer.id
  
-# }
+}
 
 # data "aws_db_instance" "reader1 {
 #    db_instance_identifier = aws_db_instance.writer.id

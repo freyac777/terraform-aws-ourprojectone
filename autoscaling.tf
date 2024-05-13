@@ -3,7 +3,7 @@ resource "aws_launch_template" "projecttemplate" {
   name_prefix   = "projecttemplate-launch-template"
   image_id      = "ami-07caf09b362be10b8" 
   instance_type = "t2.large"   
-  key_name      = "home111"   
+  key_name      = "local"   
   count = 1
   network_interfaces {
   security_groups = [aws_security_group.projectsec.id, aws_security_group.projectsec1.id]
