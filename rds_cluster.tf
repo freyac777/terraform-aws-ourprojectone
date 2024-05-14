@@ -30,7 +30,7 @@ resource "aws_db_instance" "reader1" {
   engine               = "mysql"
   engine_version       = "8.0"
   instance_class       = "db.t3.micro"
-  
+  db_subnet_group_name = aws_db_subnet_group.default.name
   username             = "admin"
   password             = "password"
   parameter_group_name = "default.mysql8.0"
