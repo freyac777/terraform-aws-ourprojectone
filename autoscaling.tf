@@ -14,45 +14,64 @@ resource "aws_launch_template" "projecttemplate" {
 
 
 
-  user_data = base64encode (<<EOF
-#!/bin/bash
-yum update -y
-yum install -y httpd php php-mysqlnd
-systemctl start httpd
-systemctl enable httpd
-wget -c https://wordpress.org/latest.tar.gz
-tar -xvzf latest.tar.gz -C /var/www/html
-cp -r /var/www/html/wordpress/* /var/www/html/
-chown -R apache:apache /var/www/html/
+#   user_data = base64encode (<<EOF
+# #!/bin/bash
+# yum update -y
+# yum install -y httpd php php-mysqlnd
+# systemctl start httpd
+# systemctl enable httpd
+# wget -c https://wordpress.org/latest.tar.gz
+# tar -xvzf latest.tar.gz -C /var/www/html
+# cp -r /var/www/html/wordpress/* /var/www/html/
+# chown -R apache:apache /var/www/html/
 
-cd /var/www/html/
-echo "
-<?php
-define( 'DB_NAME', 'admin' );
-define( 'DB_USER', 'admin' );
-define( 'DB_PASSWORD', 'password' );
-define( 'DB_HOST', 'terraform-**************************.ct6kq4048kie.us-east-1.rds.amazonaws.com' );
-define( 'DB_CHARSET', 'utf8mb4' );
-define( 'DB_COLLATE', '' );
-define( 'AUTH_KEY',         'admin' );                                                             
-define( 'SECURE_AUTH_SALT', 'admin' );
-define( 'LOGGED_IN_SALT',   'admin' );
-define( 'NONCE_SALT',       'admin' );
-\$table_prefix = 'wp_';
-define( 'WP_DEBUG', false );
-if ( ! defined( 'ABSPATH' ) ) {
-        define( 'ABSPATH', __DIR__ . '/' );
-}
-require_once ABSPATH . 'wp-settings.php';
-" > wp-config.php
+# cd /var/www/html/
+# echo "
+# <?php
+# define( 'DB_NAME', 'admin' );
+# define( 'DB_USER', 'admin' );
+# define( 'DB_PASSWORD', 'password' );
+# define( 'DB_HOST', 'terraform-**************************.ct6kq4048kie.us-east-1.rds.amazonaws.com' );
+# define( 'DB_CHARSET', 'utf8mb4' );
+# define( 'DB_COLLATE', '' );
+# define( 'AUTH_KEY',         'admin' );                                                             
+# define( 'SECURE_AUTH_SALT', 'admin' );
+# define( 'LOGGED_IN_SALT',   'admin' );
+# define( 'NONCE_SALT',       'admin' );
+# \$table_prefix = 'wp_';
+# define( 'WP_DEBUG', false );
+# if ( ! defined( 'ABSPATH' ) ) {
+#         define( 'ABSPATH', __DIR__ . '/' );
+# }
+# require_once ABSPATH . 'wp-settings.php';
+# " > wp-config.php
 
-service httpd restart
-EOF
-  )
+# service httpd restart
+# EOF
+#   )
     
+#}
+
+user_data     = base64encode (<<-EOF
+                  #!/bin/bash
+                  yum update -y
+                  yum install -y httpd php php-mysqlnd
+                  systemctl start httpd
+                  systemctl enable httpd
+                  wget -c https://wordpress.org/latest.tar.gz
+                  tar -xvzf latest.tar.gz -C /var/www/html
+                  cp -r /var/www/html/wordpress/* /var/www/html/
+                  chown -R apache:apache /var/www/html/
+                  mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+                  sed -i "s/database_name_here/admin/" /var/www/html/wp-config.php
+                  sed -i "s/username_here/admin/" /var/www/html/wp-config.php
+                  sed -i "s/password_here/password/" /var/www/html/wp-config.php
+                  sed -i "s/localhost/${aws_db_instance.writer.endpoint}/" /var/www/html/wp-config.php
+                  EOF
+                  )
 }
 
-
+ 
 # Create auto scaling
 
 
