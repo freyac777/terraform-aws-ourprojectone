@@ -1,5 +1,5 @@
 resource "aws_route53_record" "test" {
-  zone_id = "Z00084981ESKE4O2GY2WC"  # Specify the Route 53 hosted zone ID where you want to create the record
+  zone_id = "Z0229630U7UT9OIHWPEU"  # Specify the Route 53 hosted zone ID where you want to create the record
   name    = "wordpress"  # Specify the domain name you want to associate with the ALB
   type    = "A"
   alias {

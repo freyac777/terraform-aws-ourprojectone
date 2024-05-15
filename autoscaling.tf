@@ -85,11 +85,11 @@ resource "aws_autoscaling_group" "asg" {
   }
 
   min_size             = 1
-  max_size             = 5
-  desired_capacity     = 1  
+  max_size             = 10
+  desired_capacity     = 3 
   health_check_type    = "EC2"
   health_check_grace_period = 300  
-  
+  vpc_zone_identifier = [aws_subnet.public[0].id, aws_subnet.public[1].id, aws_subnet.public[2].id,]
 }
 
 # # Create an ALB
