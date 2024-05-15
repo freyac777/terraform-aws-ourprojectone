@@ -1,6 +1,9 @@
 
 # OURPROJECTONE
 
+<img width="487" alt="Screenshot 2024-05-14 at 7 02 57 PM" src="https://github.com/freyac777/terraform-aws-ourprojectone/assets/164959620/39dfd9a5-9349-4812-a976-ca0f91367833">
+
+
 # In our first day we start working on vpc and subnets, we cretaed vpc with three public and three private subnest.
 # We also created NAT gateway and internet gateway for our subnets. We also did configuration of our route tables.
 
